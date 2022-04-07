@@ -64,7 +64,7 @@ const Read = async()=>{
   
         try{
         const data = await client.collections("books").documents().export();
-        // await fs.writeFile("/Users/vedprakash/citymall/typesense-sample/data/read.jsonl" , data)
+        await fs.writeFile("/Users/vedprakash/citymall/typesense-sample/data/read.jsonl" , data)
         return data;
         }
         catch(e){
@@ -73,4 +73,21 @@ const Read = async()=>{
           throw new Error(e);
         }
     }
-export   {CreateCollection , Search ,  Write , Read};
+
+const ReadOne = async ()=>{
+    try{
+      for(let i =  1 ; i<=1002; i++)
+      {
+        // dont know why but id 220 and 976 missing from collection data
+        if(i!=220 && i!=976){
+        let data = await client.collections('books').documents(i.toString()).retrieve();
+        await fs.appendFile("/Users/vedprakash/citymall/typesense-sample/data/read.jsonl" , JSON.stringify(data)+'\n')
+        }
+      }
+    }
+    catch(e)
+    {
+        throw new Error(e)
+    }
+}
+export   {CreateCollection , Search ,  Write , Read , ReadOne};

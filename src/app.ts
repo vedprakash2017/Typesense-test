@@ -2,7 +2,7 @@
 
 import * as Express from 'express';
 import client from "./typesense/client"
-import {Write , Read , CreateCollection, Search} from "./typesense/bookCollection";
+import {Write , Read , CreateCollection, Search , ReadOne} from "./typesense/bookCollection";
 import * as fs from "fs/promises"
 
 const app = Express();
@@ -105,3 +105,14 @@ catch(e)
   res.send(e)
 }
 });
+
+app.get('/read/one' , async ( req, res ) =>{
+  try{
+    await ReadOne();
+    res.send("done")
+  }
+  catch(e)
+  {
+    res.status(400).send(e)
+  }
+})
